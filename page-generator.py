@@ -16,11 +16,11 @@ from lxml.html import builder as E
 import lxml.html
 
 city_dfs = {}
-city_dfs['by-borough'] = pd.read_csv('data/boro.csv')
-city_dfs['by-age'] = pd.read_csv('data/by-age.csv')
-city_dfs['by-sex'] = pd.read_csv('data/by-sex.csv')
-city_dfs['hosp-trends'] = pd.read_csv('data/case-hosp-death.csv')
-city_dfs['summary'] = pd.read_csv('data/summary.csv', names = ['Metric', 'Number'])
+city_dfs['by-borough'] = pd.read_csv('https://raw.githubusercontent.com/nychealth/coronavirus-data/master/boro.csv')
+city_dfs['by-age'] = pd.read_csv('https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-age.csv')
+city_dfs['by-sex'] = pd.read_csv('https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-sex.csv')
+city_dfs['hosp-trends'] = pd.read_csv('https://raw.githubusercontent.com/nychealth/coronavirus-data/master/case-hosp-death.csv')
+city_dfs['summary'] = pd.read_csv('https://raw.githubusercontent.com/nychealth/coronavirus-data/master/summary.csv', names = ['Metric', 'Number'])
 city_dfs['zipcode'] = pd.read_csv('data/US Census/cleaned/TOTAL POPULATION.csv', index_col = 'MODZCTA')
 
 city_dfs['by-borough'].columns = ['Borough', 'Total Cases', 'Cases Rate (Per 100k)']
@@ -70,6 +70,7 @@ metrics = {}
 metrics['Cases'] = city_dfs['summary']['Number'].iloc[0]
 metrics['Deaths'] = city_dfs['summary']['Number'].iloc[1]
 metrics['Hosp'] = city_dfs['summary']['Number'].iloc[2]
+metrics['As Of'] = city_dfs['summary']['Number'].iloc[4]
 
 top_5 = city_dfs['zipcode'].sort_values(by='Positive', ascending = False).iloc[0:5]
 city_dfs['zipcode']['rate'] = city_dfs['zipcode']['Positive'] / city_dfs['zipcode']['Total_TOTAL POPULATION'] * 1000
@@ -151,6 +152,11 @@ def generate_html(metrics_dict, top5):
                     E.DIV(E.CLASS('col-sm-12'), lxml.html.fragment_fromstring(hosp_div, parser = ET.HTMLParser()))
                    )
              ),
+        E.DIV(E.CLASS('page-footer font-small black w3-montserrat text-white'),
+                E.DIV(E.CLASS('container-fluid text-center text-md-left'),
+                     E.DIV(E.CLASS('row'),
+                          E.DIV(E.CLASS('col-md-6'), 'Data is as of ' + metrics['As Of']),
+                          E.DIV(E.CLASS('col-md-6'), 'Due to reporting lags, hospitalizations for recent days usually are underreported.')))),
         E.SCRIPT(src="https://code.jquery.com/jquery-3.2.1.slim.min.js", integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN", crossorigin="anonymous"),
         E.SCRIPT(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q", crossorigin="anonymous"),
         E.SCRIPT(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js", integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl", crossorigin="anonymous")

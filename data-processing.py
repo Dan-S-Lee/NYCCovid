@@ -49,7 +49,7 @@ Get coronavirus data from NYC-Health
 '''
 
 
-corona_data = pd.read_csv('data/tests-by-zcta.csv')
+corona_data = pd.read_csv('https://raw.githubusercontent.com/nychealth/coronavirus-data/master/tests-by-zcta.csv')
 corona_data['Zip'] = corona_data['MODZCTA'].fillna(0).astype(int)
 
 data = corona_data.merge(zc_df, how = 'inner', on = 'Zip')
