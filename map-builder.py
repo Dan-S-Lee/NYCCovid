@@ -14,7 +14,7 @@ from xml.etree import ElementTree as ET
 from bs4 import BeautifulSoup
 import math
 
-zip_data = pd.read_csv('data/tests-by-zcta.csv')
+zip_data = pd.read_csv('https://raw.githubusercontent.com/nychealth/coronavirus-data/master/tests-by-zcta.csv')
 zip_data.rename(columns = {'MODZCTA': 'zipcode', 'zcta_cum.perc_pos': '%_positive'}, inplace = True)
 zip_geo = f'data/zipcode_polygons.json'
 
@@ -181,10 +181,10 @@ for i, v in df.iterrows():
     
     folium.Circle(tuple(df.loc[i][['Latitude', 'Longitude']]), radius = float(min(math.log(metrics_dict['Per 1,000:']) * 150, 1000)), tooltip = tooltip, popup= popup, fill = True, fill_color = '#FF0000', color = '#FF0000', icon = icon).add_to(m)
 
-m.save('master.html')
-soup = BeautifulSoup(open("master.html"))
+m.save('htmls/master.html')
+soup = BeautifulSoup(open("htmls/master.html"))
 links = soup.findAll('link')
 for link in links:
     link['href'] = link['href'].replace(r"https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css", "https://sleepingtuna.github.io/NYCCovid-19Map.github.io/docs/css/leaflet.css")
-with open("new_master.html", "w") as file:
+with open("htmls/new_master.html", "w") as file:
     file.write(str(soup))
