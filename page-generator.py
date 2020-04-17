@@ -62,9 +62,11 @@ cases_fig.write_html('htmls/cases_fig.html')
 age_fig.write_html('htmls/age_fig.html')
 hosp_fig.write_html('htmls/hosp_fig.html')
 
-age_div = plotly.offline.plot(age_fig, include_plotlyjs=False, output_type='div')
-cases_div = plotly.offline.plot(cases_fig, include_plotlyjs=False, output_type='div')
-hosp_div = plotly.offline.plot(hosp_fig, include_plotlyjs=False, output_type='div')
+config = dict({'responsive':True})
+
+age_div = plotly.offline.plot(age_fig, include_plotlyjs=False, output_type='div', config = config)
+cases_div = plotly.offline.plot(cases_fig, include_plotlyjs=False, output_type='div', config = config)
+hosp_div = plotly.offline.plot(hosp_fig, include_plotlyjs=False, output_type='div', config = config)
 
 metrics = {}
 metrics['Cases'] = city_dfs['summary']['Number'].iloc[0]
@@ -123,19 +125,19 @@ def generate_html(metrics_dict, top5):
                                         E.TH('CONFIRMED CASES')),
                                   E.TBODY(
                                       E.TR(E.TD(str(top5_metrics['total']['Zip'].iloc[0])),
-                                           E.TD(str(top5_metrics['total']['Positive'].iloc[0]))
+                                           E.TD(str('{:,.0f}'.format(top5_metrics['total']['Positive'].iloc[0])))
                                           ),
                                       E.TR(E.TD(str(top5_metrics['total']['Zip'].iloc[1])),
-                                           E.TD(str(top5_metrics['total']['Positive'].iloc[1]))
+                                           E.TD(str('{:,.0f}'.format(top5_metrics['total']['Positive'].iloc[1])))
                                           ),
                                       E.TR(E.TD(str(top5_metrics['total']['Zip'].iloc[2])),
-                                           E.TD(str(top5_metrics['total']['Positive'].iloc[2]))
+                                           E.TD(str('{:,.0f}'.format(top5_metrics['total']['Positive'].iloc[2])))
                                           ),
                                       E.TR(E.TD(str(top5_metrics['total']['Zip'].iloc[3])),
-                                           E.TD(str(top5_metrics['total']['Positive'].iloc[3]))
+                                           E.TD(str('{:,.0f}'.format(top5_metrics['total']['Positive'].iloc[3])))
                                           ),
                                       E.TR(E.TD(str(top5_metrics['total']['Zip'].iloc[4])),
-                                           E.TD(str(top5_metrics['total']['Positive'].iloc[4]))
+                                           E.TD(str('{:,.0f}'.format(top5_metrics['total']['Positive'].iloc[4])))
                                           )
                                          )),
                           style = 'background-color:bg-dark;', align = 'center')
