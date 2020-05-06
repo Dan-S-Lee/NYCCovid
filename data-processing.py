@@ -8,6 +8,7 @@ Created on Wed Apr  8 10:19:37 2020
 import pandas as pd
 import json
 import os
+import numpy as np
 
 '''
 Gets coordinates of every NYC zipcode
@@ -63,7 +64,7 @@ data = corona_data.merge(zc_df, how = 'inner', on = 'Zip')
 Extract and clean key demographic figures such as Race and Household Size
 '''
 
-to_extract = ['HOUSEHOLD SIZE', 'HOUSING UNITS', 'RACE', 'SEX BY AGE', 'TOTAL POPULATION']
+to_extract = ['HOUSEHOLD SIZE', 'HOUSING UNITS', 'RACE', 'SEX BY AGE', 'TOTAL POPULATION', 'SELECTED ECONOMIC CHARACTERISTICS']
 
 data_dir = 'data/US Census/renamed'
 
@@ -72,6 +73,7 @@ for file in to_extract:
     df = pd.read_csv(os.path.join(data_dir,file + '.csv'))
     df.columns = df.iloc[0].values.tolist()
     df = df[1:]
+    df = df.loc[:, ~(df == '(X)').all()]
     df['Zip'] = df['Geographic Area Name'].apply(lambda x: x.split()[1].replace(',', '')).astype(int)
     new_df = data.merge(df, how = 'inner', on = 'Zip', suffixes = ('', '_' + file))
     df_dict[file] = new_df
@@ -94,3 +96,57 @@ for name in percentage_list:
         df[metrics_list[i]] = round(df[metrics_list[i]].astype(int) / df['Total_' + name].astype(int) * 100, 2)
     percentage_dict[name] = df
     df.to_csv('data/US Census/cleaned/' + name + ' Percentage.csv')
+    
+household_df = pd.read_csv('data/US Census/cleaned/HOUSEHOLD SIZE Percentage.csv')
+sizes_list = household_df.columns.values.tolist()[-7:]
+n_list = list(range(1,8))
+household_df['Weighted Avg'] = household_df[sizes_list].apply(lambda x: np.dot(x, n_list)/100, axis = 1)
+household_df.to_csv('data/US Census/cleaned/HOUSEHOLD SIZE Percentage.csv')
+
+original_cols = list(data.columns.values)
+new_cols = []
+renamed_cols = []
+for col in df_dict['SELECTED ECONOMIC CHARACTERISTICS'].columns.values:
+    if col in original_cols:
+        renamed_cols.append(col)
+        new_cols.append(col)
+    elif 'Median' in col and 'Margin of Error' not in col:
+        df_dict['SELECTED ECONOMIC CHARACTERISTICS'][col] = df_dict['SELECTED ECONOMIC CHARACTERISTICS'][col].str.replace('+', '')
+        df_dict['SELECTED ECONOMIC CHARACTERISTICS'][col] = df_dict['SELECTED ECONOMIC CHARACTERISTICS'][col].str.replace(',', '')
+        df_dict['SELECTED ECONOMIC CHARACTERISTICS'][col] = df_dict['SELECTED ECONOMIC CHARACTERISTICS'][col].astype(int)
+        new_cols.append(col)
+        renamed_cols.append(col.split('!!')[-1])
+    #elif 'HEALTH' in col and 'Margin of Error' not in col:
+        #new_cols.append(col)
+
+median_df = df_dict['SELECTED ECONOMIC CHARACTERISTICS'][new_cols].copy()
+median_df.columns = renamed_cols
+median_df.to_csv('data/US Census/cleaned/' + 'MEDIAN INCOME' + '.csv')
+
+original_cols = list(data.columns.values)
+new_cols = []
+renamed_cols = []
+for col in df_dict['SELECTED ECONOMIC CHARACTERISTICS'].columns.values:
+    if col in original_cols:
+        renamed_cols.append(col)
+        new_cols.append(col)
+    elif ('HEALTH INSURANCE' in col) and ('Percent' in col) and ('coverage' in col) and ('Margin of Error' not in col) and ('years' not in col):
+        new_cols.append(col)
+        renamed_cols.append(col.split('!!')[-1])
+health_df = df_dict['SELECTED ECONOMIC CHARACTERISTICS'][new_cols].copy()
+health_df.columns = renamed_cols
+health_df.to_csv('data/US Census/cleaned/' + 'HEALTH INSURANCE' + '.csv')
+
+original_cols = list(data.columns.values)
+new_cols = []
+renamed_cols = []
+for col in df_dict['SELECTED ECONOMIC CHARACTERISTICS'].columns.values:
+    if col in original_cols:
+        renamed_cols.append(col)
+        new_cols.append(col)
+    elif ('POVERTY' in col) and ('Percent' in col) and ('Margin of Error' not in col) and ('All people' in col):
+        new_cols.append(col)
+        renamed_cols.append('Below Poverty Level - ' + col.split('!!')[-1])
+poverty_df = df_dict['SELECTED ECONOMIC CHARACTERISTICS'][new_cols].copy()
+poverty_df.columns = renamed_cols
+poverty_df.to_csv('data/US Census/cleaned/' + 'POVERTY' + '.csv')
