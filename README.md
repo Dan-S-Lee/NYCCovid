@@ -1,8 +1,8 @@
 # NYCCovid-19.github.io
 
-[Simple Interactive Folium map with cumulative COVID-19 Reports broken down by Zip Code Tabulated Areas (ZCTA).] (https://sleepingtuna.github.io/NYCCovid-19Map.github.io/docs/landingpage.html)
+[Simple Interactive Folium map with cumulative COVID-19 Reports broken down by Zip Code Tabulated Areas (ZCTA).] (https://sleepingtuna.github.io/NYCCovid/docs/home.html)
 
-Link: https://sleepingtuna.github.io/NYCCovid-19Map.github.io/docs/landingpage.html
+Link: https://sleepingtuna.github.io/NYCCovid/docs/home.html
 
 Data Sources:
 
