@@ -1,5 +1,4 @@
-# NYCCovid-19.github.io
-
+# NYCCovid
 Simple Interactive Folium map with cumulative COVID-19 Reports broken down by Zip Code Tabulated Areas (ZCTA).
 
 Three main processing files:
