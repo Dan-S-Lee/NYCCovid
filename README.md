@@ -8,6 +8,6 @@ Three main processing files:
 
 Data Sources:
 
-US 2010 Census (https://data.census.gov/)
+[US 2010 Census](https://data.census.gov/)
 
-NYC Health (https://www1.nyc.gov/site/doh/covid/covid-19-data.page#download)
+[NYC Department of Health](https://www1.nyc.gov/site/doh/covid/covid-19-data.page#download)
