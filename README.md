@@ -2,7 +2,9 @@
 Simple Interactive Folium map with cumulative COVID-19 Reports broken down by Zip Code Tabulated Areas (ZCTA).
 
 ## Usage
-The map on the homepage has pop-up functionality, where more data is displayed when the red circles are clicked. [ADD IMAGE]
+The map on the homepage has pop-up functionality, where more data is displayed when the red circles are clicked. 
+
+![alt text](https://dan-s-lee.github.io/NYCCovid/docs/images/PopupDemo.png "Pop-up function demo")
 
 The statistics page features real-time regressions on the total number of COVID cases against various demographics including race, median income, and poverty rate. Certain correlations are not statistically signficant but were still kept for illustrative purposes.
 
