@@ -1,5 +1,5 @@
-# NYCCovid
-Simple Interactive Folium map with cumulative COVID-19 Reports broken down by Zip Code Tabulated Areas (ZCTA).
+# NYC COVID Dashboard
+Dashboard website that displays New York City's cumulative COVID-19 Reports broken down by Zip Code Tabulated Areas (ZCTA).
 
 ## Usage
 The map on the homepage has pop-up functionality, where more data is displayed when the red circles are clicked. 
