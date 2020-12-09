@@ -1,12 +1,17 @@
 # NYCCovid
 Simple Interactive Folium map with cumulative COVID-19 Reports broken down by Zip Code Tabulated Areas (ZCTA).
 
-Three main processing files:
-1. data-processing.py
-2. map-builder.py
-3. page-generator.py
+## Usage
+The map on the homepage has pop-up functionality, where more data is displayed when the red circles are clicked. [ADD IMAGE]
 
-Data Sources:
+The statistics page features real-time regressions on the total number of COVID cases against various demographics including race, median income, and poverty rate. Certain correlations are not statistically signficant but were still kept for illustrative purposes.
+
+## Built with
+* Python - Packages such as folium, pandas, sqlite3, lxml allowed for easy, concise code for data collection and visualization
+* Bootstrap - Free open-source CSS framework focused on responsive, mobile-first web development
+* Python Anywhere - Online IDE and web hosting service that is used to display the HTML files generated from the program
+
+### Data Sources
 
 [US 2010 Census](https://data.census.gov/)
 
