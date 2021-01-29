@@ -10,7 +10,7 @@ The map on the homepage has pop-up functionality, where more data is displayed w
 The statistics page features real-time regressions on the total number of COVID cases against various demographics including race, median income, and poverty rate. Certain correlations are not statistically signficant but were still kept for illustrative purposes.
 
 ## Built with
-* Python - Packages such as folium, pandas, sqlite3, lxml allowed for easy, concise code for data collection and visualization
+* Python - Packages such as folium, dash, pandas, sqlite3, lxml allowed for easy, concise code for data collection and visualization
 * Bootstrap - Free open-source CSS framework focused on responsive, mobile-first web development
 * Python Anywhere - Online IDE and web hosting service that is used to display the HTML files generated from the program
 
